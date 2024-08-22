@@ -613,7 +613,10 @@ impl Celery {
                         error!("{}", broker_error);
                         return Err(broker_error.into());
                     }
-                }
+                },
+                // This branch ensures the loop continues and re-polls the stream_map
+                _ = time::sleep(Duration::from_millis(1000)) => {
+                },
             };
         }
 
